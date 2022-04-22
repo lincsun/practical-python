@@ -1,22 +1,27 @@
-# Lists
+# Files Management
 #
-# exercise 1.5.0
+# exercise 1.6.0
 
 
-def pr_list():
-    a = 'hello world'
-    inst_l = a.split(' ')
-    print('get list: {}'.format(inst_l))
+def file_proc():
+    a = open('test_fp.txt', 'wt+')
+    a.write("some text\ncome on!")
+    a.close()
 
-    inst_l.append('test')
-    print('after append string \'test\': {}'.format(inst_l))
+    b = open('test_fp.txt', 'rt+')
+    t = b.read(4)
+    print('read 4 bytes from file: {}'.format(t))
+    b.close()
 
-    inst_l.sort()
-    print('after sort: {}'.format(inst_l))
+    # automatically close file
+    with open('test_fp.txt', 'rt') as file:
+        c = file.read()
+        print('c: {}'.format(c))
 
-    inst_2 = inst_l * 3
-    print('after multiple 3: {}'.format(inst_2))
+        file.seek(0, 0)
+        for line in file:
+            print('get line: {}'.format(line.strip()))
 
 
 if __name__ == '__main__':
-    pr_list()
+    file_proc()

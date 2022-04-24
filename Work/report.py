@@ -10,10 +10,10 @@ def read_portfolio(filename):
 
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
-        next(rows)  # skip label row
+        headers = next(rows)  # skip label row
 
         for row in rows:
-            portfolio.append({'Name': row[0], 'Shares': int(row[1]), 'Price': float(row[2])})
+            portfolio.append(dict(zip(headers, row)))
 
     return portfolio
 
@@ -57,18 +57,19 @@ def make_report(portfolio, prices):
     keys = list(portfolio[0].keys())
     # print(len(portfolio))
 
-    for i in range(len(portfolio)):
-        stock_name = portfolio[i].get('Name')
+    for p in portfolio:
+        stock_name = p.get('name')
         # print(stock_name)
         if stock_name not in prices:
             print('not found stock name: {}'.format(stock_name))
             continue
 
-        portfolio[i]['Change'] = prices[stock_name] - portfolio[i].get('Price')
-        portfolio[i]['Price'] = prices[stock_name]
+        # print(prices[stock_name].__class__, p.get('price').__class__)
+        p['Change'] = prices[stock_name] - float(p.get('price'))
+        p['price'] = prices[stock_name]
 
-        inst_list.append((portfolio[i].get(keys[0]), portfolio[i].get(keys[1]), portfolio[i].get(keys[2]),
-                          portfolio[i].get('Change')))
+        inst_list.append((p.get(keys[0]), p.get(keys[1]), p.get(keys[2]),
+                          p.get('Change')))
         # print('list: {}'.format(inst_list))
 
     return inst_list
@@ -84,5 +85,5 @@ if __name__ == '__main__':
     pprint('get prices: {}, class: {}'.format(prices, prices.__class__))
 
     report_list = make_report(portfolio, prices)
-    for i in range(len(report_list)):
-        print('get report list: {}'.format(report_list[i]))
+    for r in report_list:
+        print('get report list: {}'.format(r))

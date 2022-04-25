@@ -6,14 +6,11 @@ from pprint import pprint
 
 
 def read_portfolio(filename):
-    portfolio = []
-
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         headers = next(rows)  # skip label row
 
-        for row in rows:
-            portfolio.append(dict(zip(headers, row)))
+        portfolio = [dict(zip(headers, row)) for row in rows]
 
     return portfolio
 

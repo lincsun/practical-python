@@ -23,6 +23,8 @@ def the_big_picture():
     inst_tuple = tuple(int(i) for i in record['date'].split('/'))
     print(inst_tuple)
 
+    f.close()
+
 
 if __name__ == '__main__':
     the_big_picture()

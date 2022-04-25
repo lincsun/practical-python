@@ -20,6 +20,8 @@ def extracting_data_from_csv_files():
     record = [{column_name: row[index] for column_name, index in zip(select, indices)} for row in rows]
     pprint(record)
 
+    f.close()
+
 
 if __name__ == '__main__':
     extracting_data_from_csv_files()

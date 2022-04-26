@@ -5,7 +5,7 @@ import csv
 from pprint import pprint
 
 
-def read_portfolio(filename):
+def read_portfolio(filename: str) -> list:
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         headers = next(rows)  # skip label row
@@ -15,7 +15,7 @@ def read_portfolio(filename):
     return portfolio
 
 
-def read_prices(filename):
+def read_prices(filename: str) -> dict:
     prices = {}
 
     with open(filename) as f:
@@ -30,7 +30,7 @@ def read_prices(filename):
     return prices
 
 
-def cal_gain_or_loss(bought_value_filename, current_value_filename):
+def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
     bought = read_portfolio(bought_value_filename)
     # pprint('get bought: {}'.format(bought))
 
@@ -48,7 +48,12 @@ def cal_gain_or_loss(bought_value_filename, current_value_filename):
     print('get gain: {}'.format(gain_loss))
 
 
-def make_report(portfolio, prices):
+def print_report(report_result: list):
+    for r in report_result:
+        print(r)
+
+
+def make_report(portfolio: list, prices: dict) -> list:
     inst_list = []
 
     keys = list(portfolio[0].keys())
@@ -66,10 +71,24 @@ def make_report(portfolio, prices):
         p['price'] = prices[stock_name]
 
         inst_list.append((p.get(keys[0]), p.get(keys[1]), p.get(keys[2]),
-                          p.get('Change')))
+                          round(float(p.get('Change')), 2)))
         # print('list: {}'.format(inst_list))
 
     return inst_list
+
+
+def portfolio_report(portfolio_filename: str, price_filename: str):
+    # read a csv file and get returned list of several dicts of bought stocks' prices
+    portfolio = read_portfolio(portfolio_filename)
+
+    # read a csv file and get returned dictionary of several stock's current prices
+    prices = read_prices(price_filename)
+
+    # based on portfolio and prices, get a returned list of stocks' report
+    inst_list = make_report(portfolio, prices)
+
+    # print report
+    print_report(inst_list)
 
 
 if __name__ == '__main__':
@@ -82,5 +101,4 @@ if __name__ == '__main__':
     pprint('get prices: {}, class: {}'.format(prices, prices.__class__))
 
     report_list = make_report(portfolio, prices)
-    for r in report_list:
-        print('get report list: {}'.format(r))
+    print_report(report_list)

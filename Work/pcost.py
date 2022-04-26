@@ -2,23 +2,14 @@
 #
 # Exercise 1.27
 
-import csv
+import report
 
 
 def portfolio_cost(filename):
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        # print('headers: {}'.format(headers))
+    portfolio = report.read_portfolio(filename)
 
-        total = 0
-        for n, row in enumerate(rows, start=1):
-            records = dict(zip(headers, row))
-            try:
-                shares = int(records['shares'])
-                price = float(records['price'])
-                total += shares * price
-            except:
-                print('Row {}: Bad row: {}'.format(n, row))
+    total_cost = 0
+    for p in portfolio:
+        total_cost += int(p.get('shares')) * float(p.get('price'))
 
-        print('Total cost {}'.format(total))
+    print('Total cost {}'.format(total_cost))

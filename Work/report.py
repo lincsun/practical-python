@@ -2,32 +2,21 @@
 #
 # Exercise 2.4
 import csv
+from fileparse import parse_csv
 from pprint import pprint
 
 
 def read_portfolio(filename: str) -> list:
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)  # skip label row
-
-        portfolio = [dict(zip(headers, row)) for row in rows]
-
-    return portfolio
+    return parse_csv(filename, select=['name', 'shares', 'price'], types=[str, int, float])
 
 
 def read_prices(filename: str) -> dict:
-    prices = {}
+    prices_list = parse_csv(filename, types=[str, float], has_header=False)
 
-    with open(filename) as f:
-        rows = csv.reader(f)
-
-        for row in rows:
-            try:
-                prices[row[0]] = float(row[1])
-            except:
-                continue
-
-    return prices
+    prices_dict = {}
+    for p in prices_list:
+        prices_dict[p[0]] = p[1]
+    return prices_dict
 
 
 def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
@@ -40,10 +29,10 @@ def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
     gain_loss = 0.0
 
     for i in range(len(bought)):
-        stock_name = bought[i].get('Name')
+        stock_name = bought[i].get('name')
 
         if stock_name in current:
-            gain_loss += (bought[i].get('Shares') * (current[stock_name] - bought[i].get('Price')))
+            gain_loss += (bought[i].get('shares') * (current[stock_name] - bought[i].get('price')))
 
     print('get gain: {}'.format(gain_loss))
 

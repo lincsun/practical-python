@@ -6,12 +6,13 @@ import report
 
 
 def sequences():
-    portfilio = report.read_portfolio('Data/portfolio.csv')
-    prices = report.read_prices('Data/prices.csv')
+    with open('Data/portfolio.csv') as f:
+        portfilio = report.read_portfolio(f)
+    with open('Data/prices.csv') as f:
+        prices = report.read_prices(f)
 
     inst_list = report.make_report(portfilio, prices)
-    for i, r in enumerate(inst_list, start=1):
-        print(i, r[0], r[1], round(r[2], 2), round(r[3], 2))
+    report.print_report(inst_list)
 
     columns = ['name', 'shares', 'price']
     values = ['GOOG', 100, 490.1]

@@ -7,12 +7,12 @@ from fileparse import parse_csv
 import sys
 
 
-def read_portfolio(filename: str) -> list:
-    return parse_csv(filename, select=['name', 'shares', 'price'], types=[str, int, float])
+def read_portfolio(lines) -> list:
+    return parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
 
 
-def read_prices(filename: str) -> dict:
-    prices_list = parse_csv(filename, types=[str, float], has_header=False)
+def read_prices(lines) -> dict:
+    prices_list = parse_csv(lines, types=[str, float], has_header=False)
 
     prices_dict = {}
     for p in prices_list:
@@ -21,10 +21,12 @@ def read_prices(filename: str) -> dict:
 
 
 def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
-    bought = read_portfolio(bought_value_filename)
+    with open(bought_value_filename) as f:
+        bought = read_portfolio(f)
     # pprint('get bought: {}'.format(bought))
 
-    current = read_prices(current_value_filename)
+    with open(current_value_filename) as f:
+        current = read_prices(f)
     # pprint('current value: {}'.format(current))
 
     gain_loss = 0.0
@@ -81,10 +83,12 @@ def make_report(portfolio: list, prices: dict) -> list:
 
 def portfolio_report(portfolio_filename: str, price_filename: str):
     # read a csv file and get returned list of several dicts of bought stocks' prices
-    portfolio = read_portfolio(portfolio_filename)
+    with open(portfolio_filename) as f:
+        portfolio = read_portfolio(f)
 
     # read a csv file and get returned dictionary of several stock's current prices
-    prices = read_prices(price_filename)
+    with open(price_filename) as f:
+        prices = read_prices(f)
 
     # based on portfolio and prices, get a returned list of stocks' report
     inst_list = make_report(portfolio, prices)

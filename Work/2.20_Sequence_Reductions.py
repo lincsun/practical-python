@@ -6,11 +6,14 @@ import report
 
 
 def sequence_reductions():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
+
     cost = sum(int(p['shares']) * float(p['price']) for p in portfolio)
     print(cost)
 
-    prices = report.read_prices('Data/prices.csv')
+    with open('Data/prices.csv') as f:
+        prices = report.read_prices(f)
     value = sum(int(p['shares']) * prices[p['name']] for p in portfolio if p.get('name') in prices)
     print(value)
 

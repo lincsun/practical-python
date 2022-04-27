@@ -1,11 +1,11 @@
 # fileparse.py
 #
 # Exercise 3.3
-
 import csv
+import gzip
 
 
-def parse_csv(filename: str, select=None, types=None, has_header=True, delimiter=',', silence_errors=False) -> list:
+def parse_csv(lines, select=None, types=None, has_header=True, delimiter=',', silence_errors=False) -> list:
     """
     Parse a CSV file into a list of records
     :param filename: the filename of csv file
@@ -14,57 +14,65 @@ def parse_csv(filename: str, select=None, types=None, has_header=True, delimiter
     if select != None and has_header == False:
         raise RuntimeError(f'select:{select}, has_header: {has_header}')
 
-    with open(filename) as f:
-        rows = csv.reader(f, delimiter=delimiter)
+    rows = csv.reader(lines, delimiter=delimiter)
 
-        indices = []
-        if has_header:
-            headers = list(next(rows))
-            indices = [i for i, h in enumerate(headers) if select == None or h in select]
-        else:
-            headers = []
-        # print(indices)
+    headers = next(rows) if has_header else []
 
-        records = []
-        for idx, row in enumerate(rows, start=1):
-            if not row:
-                continue
+    if select:
+        indices = [headers.index(colname) for colname in select]
+        headers = select
 
-            record = {}
+    # print(indices, headers)
+    records = []
+    for idx, row in enumerate(rows, 1):
+        if not row:
+            continue
+
+        if select:
+            row = [row[index] for index in indices]
+
+        if types:
             try:
-                if len(headers) != 0:
-                    real_headers = [headers[i] for i in indices]
-                    if types == None:
-                        real_vals = [row[i] for i in indices]
-                        record = dict(zip(real_headers, real_vals))
-                    else:
-                        real_vals = zip(types, [row[i] for i in indices])
-                        record = dict(zip(real_headers, [func(val) for func, val in real_vals]))
-                else:
-                    try:
-                        record = tuple(func(val) for func, val in zip(types, row))
-                        # print(record, record.__class__)
-                    except:
-                        if not silence_errors:
-                            print('except!')
-                        continue
-
-                records.append(record)
-
-            except:
+                row = [func(val) for func, val in zip(types, row)]
+            except ValueError as e:
                 if not silence_errors:
-                    print('Row{}: Couldn\'t convert {}'.format(idx, row))
+                    print(f"Row {idx}: Couldn't convert {row}")
+                    print(f"Row {idx}: Reason {e}")
                 continue
+
+        if headers:
+            record = dict(zip(headers, row))
+        else:
+            record = tuple(row)
+
+        records.append(record)
 
     return records
 
 
 if __name__ == '__main__':
-    records = parse_csv('Data/portfolio.csv', select=['name'])
-    print(records)
-    records = parse_csv('Data/portfolio.csv', types=[str, int, float])
-    print(records)
-    records = parse_csv('Data/prices.csv', types=[str, float], has_header=False)
-    print(records)
-    records = parse_csv('Data/portfolio.dat', types=[str, int, float], delimiter=' ')
-    print(records)
+    with open('Data/portfolio.csv') as f:
+        records = parse_csv(f, select=['name'])
+        print(records)
+
+        f.seek(0)
+        records = parse_csv(f, types=[str, int, float])
+        print(records)
+
+    with open('Data/prices.csv') as f:
+        records = parse_csv(f, types=[str, float], has_header=False)
+        print(records)
+
+    with open('Data/portfolio.dat') as f:
+        # rows = csv.reader(f)
+        # for row in rows:
+        #     for r in row:
+        #         inst_list = [r.split(' ')]
+        #         print(inst_list)
+        #     print(row, row.__class__)
+        records = parse_csv(f, types=[str, int, float], delimiter=' ')
+        print(records)
+
+    with gzip.open('Data/portfolio.csv.gz', 'rt') as file:
+        records = parse_csv(file, types=[str, int, float])
+        print(records)

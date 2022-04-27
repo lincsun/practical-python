@@ -3,7 +3,8 @@
 # Exercise 2.4
 import csv
 from fileparse import parse_csv
-from pprint import pprint
+# from pprint import pprint
+import sys
 
 
 def read_portfolio(filename: str) -> list:
@@ -38,8 +39,16 @@ def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
 
 
 def print_report(report_result: list):
-    for r in report_result:
-        print(r)
+    for i, r in enumerate(report_result):
+        # print('1111: {}'.format(r))
+        if 0 == i:
+            for obj in r:
+                print('{:>10s}'.format(obj), end=' ')
+            print()
+        elif 1 == i:
+            print('{:->10s} {:->10s} {:->10s} {:->10s}'.format('', '', '', ''))
+        else:
+            print('{:>10s} {:>10d} {:>10.2f} {:>10.2f}'.format(r[0], int(r[1]), float(r[2]), float(r[3])))
 
 
 def make_report(portfolio: list, prices: dict) -> list:
@@ -47,6 +56,10 @@ def make_report(portfolio: list, prices: dict) -> list:
 
     keys = list(portfolio[0].keys())
     # print(len(portfolio))
+
+    inst_list = []
+    inst_list_labels = list(portfolio[0].keys()) + ['Change']
+    inst_list.append(tuple(inst_list_labels))  # add labels
 
     for p in portfolio:
         stock_name = p.get('name')
@@ -75,19 +88,17 @@ def portfolio_report(portfolio_filename: str, price_filename: str):
 
     # based on portfolio and prices, get a returned list of stocks' report
     inst_list = make_report(portfolio, prices)
+    # print(inst_list)
 
     # print report
     print_report(inst_list)
 
 
+def main(argv):
+    portfolio_report(argv[1], argv[2])
+
+
 if __name__ == '__main__':
-    portfolio = read_portfolio('Data/portfolio.csv')
-    pprint('get portfolio: {}, class: {}'.format(portfolio, portfolio.__class__))
-
-    # cal_gain_or_loss('Data/portfolio.csv', 'Data/prices.csv')
-
-    prices = read_prices('Data/prices.csv')
-    pprint('get prices: {}, class: {}'.format(prices, prices.__class__))
-
-    report_list = make_report(portfolio, prices)
-    print_report(report_list)
+    # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+    print('get argv: {}'.format(sys.argv))
+    main(sys.argv)

@@ -4,11 +4,14 @@
 import csv
 from fileparse import parse_csv
 # from pprint import pprint
-import sys
+# import sys
+import stock
+import tableformat
 
 
 def read_portfolio(lines) -> list:
-    return parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+    portfolio = parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+    return [stock.Stock(d['name'], d['shares'], d['price']) for d in portfolio]
 
 
 def read_prices(lines) -> dict:
@@ -40,51 +43,37 @@ def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
     print('get gain: {}'.format(gain_loss))
 
 
-def print_report(report_result: list):
-    for i, r in enumerate(report_result):
-        # print('1111: {}'.format(r))
-        if 0 == i:
-            for obj in r:
-                print('{:>10s}'.format(obj), end=' ')
-            print()
-        elif 1 == i:
-            print('{:->10s} {:->10s} {:->10s} {:->10s}'.format('', '', '', ''))
-        else:
-            print('{:>10s} {:>10d} {:>10.2f} {:>10.2f}'.format(r[0], int(r[1]), float(r[2]), float(r[3])))
+def print_report(report_result: list, table_formatter: tableformat):
+    table_formatter.headings(['name', 'shares', 'price', 'Change'])
+
+    for name, shares, price, change in report_result:
+        table_formatter.row([str(name), str(shares), str(price), str(change)])
 
 
 def make_report(portfolio: list, prices: dict) -> list:
     inst_list = []
 
-    keys = list(portfolio[0].keys())
-    # print(len(portfolio))
-
-    inst_list = []
-    inst_list_labels = list(portfolio[0].keys()) + ['Change']
-    inst_list.append(tuple(inst_list_labels))  # add labels
-
+    p: stock.Stock
     for p in portfolio:
-        stock_name = p.get('name')
+        stock_name = p.name
         # print(stock_name)
         if stock_name not in prices:
             print('not found stock name: {}'.format(stock_name))
             continue
 
         # print(prices[stock_name].__class__, p.get('price').__class__)
-        p['Change'] = prices[stock_name] - float(p.get('price'))
-        p['price'] = prices[stock_name]
 
-        inst_list.append((p.get(keys[0]), p.get(keys[1]), p.get(keys[2]),
-                          round(float(p.get('Change')), 2)))
+        inst_list.append((str(p.name), int(p.shares), float(p.price),
+                          round(float(prices[stock_name] - float(p.price)), 2)))
         # print('list: {}'.format(inst_list))
 
     return inst_list
 
 
-def portfolio_report(portfolio_filename: str, price_filename: str):
+def portfolio_report(portfolio_filename: str, price_filename: str, fmt='txt'):
     # read a csv file and get returned list of several dicts of bought stocks' prices
     with open(portfolio_filename) as f:
-        portfolio = read_portfolio(f)
+        portfolio: list = read_portfolio(f)
 
     # read a csv file and get returned dictionary of several stock's current prices
     with open(price_filename) as f:
@@ -95,7 +84,10 @@ def portfolio_report(portfolio_filename: str, price_filename: str):
     # print(inst_list)
 
     # print report
-    print_report(inst_list)
+
+    # test table formatter
+    table_formatter = tableformat.create_formatter(fmt)
+    print_report(inst_list, table_formatter)
 
 
 def main(argv):
@@ -103,6 +95,6 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
-    print('get argv: {}'.format(sys.argv))
-    main(sys.argv)
+    portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+    # print('get argv: {}'.format(sys.argv))
+    # main(sys.argv)

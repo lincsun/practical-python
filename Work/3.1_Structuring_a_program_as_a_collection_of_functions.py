@@ -6,10 +6,12 @@ import report
 
 def structing_a_program_as_a_collection_of_functions():
     # read a csv file and get returned list of several dicts of bought stocks' prices
-    portfolio = report.read_portfolio('Data/portfolio.csv')
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
 
     # read a csv file and get returned dictionary of several stock's current prices
-    prices = report.read_prices('Data/prices.csv')
+    with open('Data/prices.csv') as f:
+        prices = report.read_prices(f)
 
     # based on portfolio and prices, get a returned list of stocks' report
     inst_list = report.make_report(portfolio, prices)

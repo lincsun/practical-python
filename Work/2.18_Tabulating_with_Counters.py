@@ -6,7 +6,9 @@ from collections import Counter
 
 
 def tabulating_with_counters():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
+
     holdings = Counter()
     for s in portfolio:
         holdings[s['name']] += int(s['shares'])
@@ -15,7 +17,9 @@ def tabulating_with_counters():
     print(holdings['MSFT'])
     print(holdings.most_common(4))
 
-    portfolio2 = report.read_portfolio('Data/portfolio2.csv')
+    with open('Data/portfolio2.csv') as f:
+        portfolio2 = report.read_portfolio(f)
+
     holdings2 = Counter()
     for s in portfolio2:
         holdings2[s['name']] += int(s['shares'])

@@ -3,23 +3,26 @@
 # exercise 2.4
 
 import report
+import stock
 
 
 def a_list_of_tuples():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
-    print('{}: get list {}'.format(__name__, portfolio))
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
 
     total = 0
-    for i in range(len(portfolio)):
+    p: stock.Stock
+    for p in portfolio:
         # print('index_{} of list: {}'.format(i, portfolio[i]))
-        total += (portfolio[i][1] * portfolio[i][2])
+        total += (int(p.shares) * float(p.price))
 
     print('use 2-D array type: get total: {}'.format(total))
 
     total = 0
-    for i in range(len(portfolio)):
+    p: stock.Stock
+    for p in portfolio:
         # print('index_{} of list: {}'.format(i, portfolio[i]))
-        name, shares, price = portfolio[i]
+        name, shares, price = p.name, p.shares, p.price
         total += (shares * price)
 
     print('use single object type: get total: {}'.format(total))

@@ -6,8 +6,11 @@ import report
 
 
 def data_extraction():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
-    prices = report.read_prices('Data/prices.csv')
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
+
+    with open('Data/prices.csv') as f:
+        prices = report.read_prices(f)
 
     inst_list = [(p['name'], int(p['shares'])) for p in portfolio]
     print(inst_list)

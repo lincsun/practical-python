@@ -6,16 +6,14 @@ import report
 
 
 def collecting_data():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
-    prices = report.read_prices('Data/prices.csv')
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
+
+    with open('Data/prices.csv') as f:
+        prices = report.read_prices(f)
 
     report_list = report.make_report(portfolio, prices)
-    print('{:>10s} {:>10s} {:>10s} {:>10s}'.format('Name', 'Shares', 'Price', 'Change'))
-    print('{:>10s} {:>10s} {:>10s} {:>10s}'.format('', '', '', ''))
-
-    for i in range(len(report_list)):
-        print('{:>10s} {:>10d} {:>10.2f} {:>10.2f}'.format(report_list[i][0], report_list[i][1], report_list[i][2],
-                                                           report_list[i][3]))
+    report.print_report(report_list)
 
 
 if __name__ == '__main__':

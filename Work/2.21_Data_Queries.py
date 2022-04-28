@@ -6,7 +6,8 @@ import report
 
 
 def data_queries():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
 
     more100 = [s for s in portfolio if int(s['shares']) > 100]
     print(more100)

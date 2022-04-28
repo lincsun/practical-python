@@ -4,15 +4,18 @@
 
 import report
 from pprint import pprint
+import stock
 
 
 def list_of_dictionaries():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
-    pprint(portfolio)  # format output print, easier to read
+    with open('Data/portfolio.csv') as f:
+        portfolio = report.read_portfolio(f)
+    # pprint(portfolio)  # format output print, easier to read
 
     total = 0
-    for i in range(len(portfolio)):
-        total += portfolio[i]['shares'] * portfolio[i]['price']
+    p: stock.Stock
+    for p in portfolio:
+        total += int(p.shares) * float(p.price)
 
     print('get total: {}'.format(total))
 

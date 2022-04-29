@@ -14,6 +14,9 @@ class Stock:
     def sell(self, sell):
         self.shares -= sell
 
+    def __repr__(self):
+        return '{}(\'{}\', {}, {})'.format('Stock', str(self.name), self.shares, self.price)
+
 
 if __name__ == '__main__':
     s = Stock('GOOG', 100, 490.10)

@@ -72,3 +72,12 @@ def create_formatter(fmt='txt') -> TableFormatter:
         return HTMLTableFormatter()
     else:
         return TableFormatter()
+
+
+def print_table(lines, attributes: list, formatter: TableFormatter):
+    formatter.headings(attributes)
+
+    for line in lines:
+        select = [str(getattr(line, attr)) for attr in attributes]
+        # print(select)
+        formatter.row(select)

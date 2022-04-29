@@ -63,6 +63,10 @@ class HTMLTableFormatter(TableFormatter):
         print(f'<tr><td>{name}</td><td>{shares}</td><td>{price}</td><td>{change}</td></tr>')
 
 
+class FormatError(Exception):
+    pass
+
+
 def create_formatter(fmt='txt') -> TableFormatter:
     if fmt == 'txt':
         return TextTableFormatter()
@@ -71,7 +75,8 @@ def create_formatter(fmt='txt') -> TableFormatter:
     elif fmt == 'html':
         return HTMLTableFormatter()
     else:
-        return TableFormatter()
+        # return TableFormatter()
+        raise FormatError('Unkonwn table format %s' % fmt)
 
 
 def print_table(lines, attributes: list, formatter: TableFormatter):

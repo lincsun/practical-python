@@ -7,20 +7,18 @@ from pprint import pprint
 
 
 def extracting_data_from_csv_files():
-    f = open('Data/portfoliodate.csv')
-    rows = csv.reader(f)
-    headers = next(rows)
-    print(headers)
+    with open('Data/portfoliodate.csv') as f:
+        rows = csv.reader(f)
+        headers = next(rows)
+        print(headers)
 
-    select = ['name', 'shares', 'price']
-    indices = [headers.index(column_name) for column_name in select]
-    print(indices)
+        select = ['name', 'shares', 'price']
+        indices = [headers.index(column_name) for column_name in select]
+        print(indices)
 
-    row = next(rows)
-    record = [{column_name: row[index] for column_name, index in zip(select, indices)} for row in rows]
-    pprint(record)
-
-    f.close()
+        # row = next(rows)
+        record = [{column_name: row[index] for column_name, index in zip(select, indices)} for row in rows]
+        pprint(record)
 
 
 if __name__ == '__main__':

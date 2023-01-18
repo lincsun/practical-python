@@ -4,15 +4,24 @@
 from fileparse import parse_csv
 
 
+def pr_list(l: list):
+    for item in l:
+        print(item)
+
+
 def module_imports():
     # help(fileparse)
     # dir(fileparse)
 
-    portfolio = parse_csv('Data/portfolio.csv', select=['name', 'shares', 'price'], types=[str, int, float])
-    print(portfolio)
+    with open('Data/portfolio.csv') as f:
+        portfolio = parse_csv(f, select=['name', 'shares', 'price'], types=[str, int, float])
+    pr_list(portfolio)
+    print()
 
-    price_list = parse_csv('Data/prices.csv', types=[str, float], has_header=False)
-    print(price_list)
+    with open('Data/prices.csv') as f:
+        price_list = parse_csv(f, types=[str, float], has_header=False)
+    pr_list(price_list)
+    print()
 
     prices = dict(price_list)
     print(prices)

@@ -6,8 +6,11 @@ from pprint import pprint
 
 
 def reading_csv_files():
-    portfolio = fileparse.parse_csv('Data/portfolio.csv')
-    pprint(portfolio)
+    with open('Data/portfolio.csv') as f:
+        portfolio = fileparse.parse_csv(f)
+
+    for p in portfolio:
+        print(p)
 
 
 if __name__ == '__main__':

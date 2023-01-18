@@ -2,12 +2,14 @@
 #
 # exercise 3.5
 import fileparse
-from pprint import pprint
 
 
 def performing_type_conversion():
-    portfolio = fileparse.parse_csv('Data/portfolio.csv', types=[str, int, float])
-    pprint(portfolio)
+    with open('Data/portfolio.csv') as f:
+        portfolio = fileparse.parse_csv(f, types=[str, int, float])
+
+    for p in portfolio:
+        print(p)
 
 
 if __name__ == '__main__':

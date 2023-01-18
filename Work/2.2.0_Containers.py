@@ -31,10 +31,12 @@ def container_test():
     print('get new prices: {}, class: {}'.format(prices, prices.__class__))
 
     prices = {}  # Initial empty dict
+    print(prices)
 
     with open('Data/prices.csv', 'rt') as f:
         for line in f:
             row = line.split(',')
+            # print('get row: {}, type:{} '.format(row, row.__class__))
             prices[row[0]] = float(row[1])
 
 

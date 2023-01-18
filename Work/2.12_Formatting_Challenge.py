@@ -3,6 +3,7 @@
 # exercise 2.12
 
 import report
+import tableformat
 
 
 def formatting_challenge():
@@ -13,7 +14,8 @@ def formatting_challenge():
         prices = report.read_prices(f)
 
     report_list = report.make_report(portfolio, prices)
-    report.print_report(report_list)
+    table_formatter = tableformat.create_formatter('txt')
+    report.print_report(report_list, table_formatter)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@
 #
 # exercise 3.1
 import report
+import tableformat
 
 
 def structing_a_program_as_a_collection_of_functions():
@@ -17,7 +18,8 @@ def structing_a_program_as_a_collection_of_functions():
     inst_list = report.make_report(portfolio, prices)
 
     # print report
-    report.print_report(inst_list)
+    table_formatter = tableformat.create_formatter('txt')
+    report.print_report(inst_list, table_formatter)
 
 
 if __name__ == '__main__':

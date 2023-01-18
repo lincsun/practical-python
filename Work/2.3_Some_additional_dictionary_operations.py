@@ -26,7 +26,7 @@ def dictionary_test():
     print('get dict: {}'.format(d))
 
     cost = d['shares'] * d['price']
-    print('cost: {}'.format(cost))
+    print('cost: {:.2f}'.format(cost))
 
     d['shares'] = 75
     print('new dict: {}'.format(d))

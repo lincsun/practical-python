@@ -34,11 +34,11 @@ def cal_gain_or_loss(bought_value_filename: str, current_value_filename: str):
 
     gain_loss = 0.0
 
-    for i in range(len(bought)):
-        stock_name = bought[i].get('name')
+    for b in bought:
+        stock_name = b.name
 
         if stock_name in current:
-            gain_loss += (bought[i].get('shares') * (current[stock_name] - bought[i].get('price')))
+            gain_loss += (b.shares * (current[stock_name] - b.price))
 
     print('get gain: {}'.format(gain_loss))
 

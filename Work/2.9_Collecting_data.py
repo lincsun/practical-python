@@ -3,6 +3,7 @@
 # exercise 2.9
 
 import report
+import tableformat
 
 
 def collecting_data():
@@ -13,7 +14,8 @@ def collecting_data():
         prices = report.read_prices(f)
 
     report_list = report.make_report(portfolio, prices)
-    report.print_report(report_list)
+    table_formatter = tableformat.create_formatter('txt')
+    report.print_report(report_list, table_formatter)
 
 
 if __name__ == '__main__':

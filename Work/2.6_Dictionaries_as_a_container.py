@@ -1,6 +1,7 @@
 # Dictionaries as a container
 #
 # exercise 2.6
+import csv
 
 import report
 
@@ -14,8 +15,9 @@ def dictionaries_as_a_container():
 
     print('if key \'AAPL\' in prices: {}'.format('AAPL' in prices))
 
-    price_dict = report.read_prices('Data/prices.csv')
-    print('get dict: {}, class: {}'.format(price_dict, price_dict.__class__))
+    with open('Data/prices.csv') as f:
+        price_dict = report.read_prices(f)
+        print('get dict: {}, class: {}'.format(price_dict, price_dict.__class__))
 
     print(price_dict['IBM'], price_dict['MSFT'])
 

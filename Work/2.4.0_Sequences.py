@@ -3,6 +3,7 @@
 # exercise 2.4.0
 
 import report
+import tableformat
 
 
 def sequences():
@@ -12,7 +13,8 @@ def sequences():
         prices = report.read_prices(f)
 
     inst_list = report.make_report(portfilio, prices)
-    report.print_report(inst_list)
+    table_formatter = tableformat.create_formatter('txt')
+    report.print_report(inst_list, table_formatter)
 
     columns = ['name', 'shares', 'price']
     values = ['GOOG', 100, 490.1]

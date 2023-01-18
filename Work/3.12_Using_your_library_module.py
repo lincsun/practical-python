@@ -2,6 +2,7 @@
 #
 # exercise 3.12
 import report
+import tableformat
 
 
 def using_your_library_module():
@@ -12,7 +13,8 @@ def using_your_library_module():
         prices = report.read_prices(f)
 
     inst_list = report.make_report(portfoliio, prices)
-    report.print_report(inst_list)
+    table_format = tableformat.create_formatter('txt')
+    report.print_report(inst_list, table_format)
 
 
 if __name__ == '__main__':

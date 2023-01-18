@@ -11,7 +11,7 @@ def tabulating_with_counters():
 
     holdings = Counter()
     for s in portfolio:
-        holdings[s['name']] += int(s['shares'])
+        holdings[s.name] += int(s.shares)
     print(holdings)
     print(holdings['IBM'])
     print(holdings['MSFT'])
@@ -22,7 +22,7 @@ def tabulating_with_counters():
 
     holdings2 = Counter()
     for s in portfolio2:
-        holdings2[s['name']] += int(s['shares'])
+        holdings2[s.name] += int(s.shares)
     print(holdings2)
 
     combined = holdings + holdings2

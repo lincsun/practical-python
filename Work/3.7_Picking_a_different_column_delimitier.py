@@ -2,12 +2,14 @@
 #
 # exercise 3.7
 import fileparse
-from pprint import pprint
 
 
 def picking_a_different_column_delimitier():
-    portfolio = fileparse.parse_csv('Data/portfolio.dat', types=[str, int, float], delimiter=' ')
-    pprint(portfolio)
+    with open('Data/portfolio.dat') as f:
+        portfolio = fileparse.parse_csv(f, types=[str, int, float], delimiter=' ')
+
+    for p in portfolio:
+        print(p)
 
 
 if __name__ == '__main__':

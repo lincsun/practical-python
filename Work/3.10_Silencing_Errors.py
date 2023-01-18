@@ -5,8 +5,11 @@ import fileparse
 
 
 def silencing_errors():
-    portfolio = fileparse.parse_csv('Data/missing.csv', types=[str, int, float], silence_errors=True)
-    print(portfolio)
+    with open('Data/missing.csv') as f:
+        portfolio = fileparse.parse_csv(f, types=[str, int, float], silence_errors=True)
+
+    for p in portfolio:
+        print(p)
 
 
 if __name__ == '__main__':

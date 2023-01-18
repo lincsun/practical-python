@@ -3,6 +3,7 @@
 # exercise 2.11
 
 import report
+import tableformat
 
 
 def adding_some_headers():
@@ -13,7 +14,8 @@ def adding_some_headers():
         prices = report.read_prices(f)
 
     report_list = report.make_report(portfolio, prices)
-    report.print_report(report_list)
+    table_formatter = tableformat.create_formatter('txt')
+    report.print_report(report_list, table_formatter)
 
 
 if __name__ == '__main__':

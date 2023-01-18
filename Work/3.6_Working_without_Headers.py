@@ -2,12 +2,14 @@
 #
 # exercise 3.6
 import fileparse
-from pprint import pprint
 
 
 def working_without_headers():
-    portfolio = fileparse.parse_csv('Data/prices.csv', types=[str, float], has_header=False)
-    pprint(portfolio)
+    with open('Data/portfolio.csv') as f:
+        portfolio = fileparse.parse_csv(f, types=[str, float], has_header=False)
+
+    for p in portfolio:
+        print(p)
 
 
 if __name__ == '__main__':

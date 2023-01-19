@@ -33,7 +33,7 @@ def portfolio_report(portfolio_filename: str, price_filename: str):
 
 
 def using_inheritance_to_produce_different_output():
-    portfolio_report('../../Data/portfolio.csv', 'Data/prices.csv')
+    portfolio_report('../../Data/portfolio.csv', '../../Data/prices.csv')
 
 
 if __name__ == '__main__':

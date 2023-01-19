@@ -5,7 +5,7 @@ import report
 
 
 def an_extersibility_problem():
-    report.portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+    report.portfolio_report('../../Data/portfolio.csv', '../../Data/prices.csv')
 
 
 if __name__ == '__main__':

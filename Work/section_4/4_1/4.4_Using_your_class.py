@@ -1,8 +1,6 @@
 # Using your class
 #
 # exercise 4.4
-import fileparse
-import stock
 
 
 def using_your_class():

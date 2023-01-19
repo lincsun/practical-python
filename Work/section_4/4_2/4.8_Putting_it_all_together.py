@@ -7,9 +7,9 @@ import report
 
 
 def putting_it_all_together():
-    report.portfolio_report('Data/portfolio.csv', 'Data/prices.csv', fmt='txt')
-    report.portfolio_report('Data/portfolio.csv', 'Data/prices.csv', fmt='csv')
-    report.portfolio_report('Data/portfolio.csv', 'Data/prices.csv', fmt='html')
+    report.portfolio_report('../../Data/portfolio.csv', '../../Data/prices.csv', fmt='txt')
+    report.portfolio_report('../../Data/portfolio.csv', '../../Data/prices.csv', fmt='csv')
+    report.portfolio_report('../../Data/portfolio.csv', '../../Data/prices.csv', fmt='html')
 
 
 def main(argv):
@@ -18,7 +18,7 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    # putting_it_all_together()
+    putting_it_all_together()
 
     # run py script through cmdline
-    main(sys.argv)
+    # main(sys.argv)
